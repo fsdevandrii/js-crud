@@ -1,0 +1,68 @@
+@use '../../lib/service.scss' as s;
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  width: 700px;
+  height: 60vh;
+  justify-content: center;
+  margin: 0 auto;
+
+  box-sizing: border-box;
+
+  padding: s.space(4);
+  gap: s.space(1);
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: s.space(3);
+  }
+
+  &__label {
+    font-size: 14px;
+  }
+
+  &__input {
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 3px;
+  }
+
+  &__button {
+    border: 1px solid s.color('light');
+    padding: s.space(3);
+  }
+
+  &__content-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: s.space(3);
+  }
+
+  &__content-column {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  &__content-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr;
+    gap: s.space(3);
+    padding: s.space(5);
+    box-shadow: 0px 3px 20px -4px #cccccc;
+  }
+}
+
+main {
+}
+
+.button-prymary {
+  //   padding: 10px 30px;
+  width: 100%;
+  border-radius: 3px;
+  background-color: rgb(0, 98, 255);
+  color: white;
+}

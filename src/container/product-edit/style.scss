@@ -1,0 +1,95 @@
+@use '../../lib/service.scss' as s;
+
+.form {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+
+  gap: s.space(8);
+  padding: s.space(5);
+  box-shadow: 0px 3px 20px -4px #cccccc;
+
+  &__wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: s.space(5);
+  }
+
+  &__title-main {
+    font-size: 22px;
+    padding-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: s.space(1);
+
+    border-bottom: 1px solid s.color('light');
+  }
+
+  &__field-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: s.space(4);
+  }
+
+  &__description-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  &__button-wrap {
+    display: grid;
+    height: 50px;
+    grid-template-columns: 1fr 1fr;
+    gap: s.space(4);
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: s.space(3);
+  }
+
+  &__label {
+    font-size: 14px;
+  }
+
+  &__label-after {
+    font-size: 10px;
+    color: rgb(195, 195, 195);
+  }
+
+  &__input {
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+  }
+
+  &__button {
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 3px;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+
+  height: 60vh;
+  justify-content: center;
+}
+
+.button-save {
+  border-radius: 3px;
+  background-color: rgb(0, 98, 255);
+  color: white;
+}
+
+.button-del {
+  border-radius: 3px;
+  background-color: red;
+  color: white;
+}

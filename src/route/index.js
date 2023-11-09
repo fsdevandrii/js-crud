@@ -134,5 +134,74 @@ router.post('/user-update', function (req, res) {
   })
 })
 
+// ================================================================
+router.get('/product-create', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('product-create', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'product-create',
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+router.post('/product-create', function (req, res) {
+  const { name, price, description } = req.body
+
+  const product = new Product(name, price, description)
+
+  Product.add(product)
+
+  console.log(Product.getList())
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('product-create', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'product-create',
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+router.get('/alert', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'alert',
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+router.get('/product-list', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('product-list', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'product-list',
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+router.get('/product-edit', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('product-edit', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'product-edit',
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
 // Підключаємо роутер до бек-енду
 module.exports = router
