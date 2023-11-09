@@ -215,22 +215,34 @@ router.post('/product-create', function (req, res) {
   console.log(Product.getList())
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('alert', {
+  res.render('product-alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'alert',
+    style: 'product-alert',
     info: 'Продукт створений',
   })
   // ↑↑ сюди вводимо JSON дані
 })
 
 // ================================================================
-router.get('/alert', function (req, res) {
+router.get('/product-alert', function (req, res) {
   // res.render генерує нам HTML сторінку
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('alert', {
+  res.render('product-alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'alert',
+    style: 'product-alert',
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+router.get('/delate-alert', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('delate-alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'delate-alert',
   })
   // ↑↑ сюди вводимо JSON дані
 })
