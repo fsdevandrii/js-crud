@@ -57,6 +57,63 @@ class User {
     }
   }
 }
+
+class Product {
+  static #list = []
+
+  constructor(name, price, description) {
+    this.id = Math.floor(Math.random() * 100000)
+    this.createDate = new Date().toISOString()
+    this.name = name
+    this.price = price
+    this.description = description
+  }
+
+  static getList = () => {
+    return this.#list
+  }
+
+  checkId = (id) => this.id === id
+
+  static add = (product) => {
+    this.#list.push(product)
+  }
+
+  static getById = (id) =>
+    this.#list.find((product) => product.id === id)
+
+  static deleteById = (id) => {
+    const index = this.#list.findIndex(
+      (product) => product.id === id,
+    )
+
+    if (index !== -1) {
+      this.#list.splice(index, 1)
+      return true
+    } else {
+      return false
+    }
+  }
+
+  static updateById = (id, data) => {
+    const user = this.getById(id)
+
+    const { name } = data
+    if (product) {
+      if (name) {
+        product.name = name
+      }
+      return true
+    } else {
+      return false
+    }
+  }
+  static update = (name, { product }) => {
+    if (name) {
+      product.name = name
+    }
+  }
+}
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
@@ -137,6 +194,7 @@ router.post('/user-update', function (req, res) {
 // ================================================================
 router.get('/product-create', function (req, res) {
   // res.render генерує нам HTML сторінку
+  const list = Product.getList()
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('product-create', {
@@ -157,9 +215,10 @@ router.post('/product-create', function (req, res) {
   console.log(Product.getList())
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('product-create', {
+  res.render('alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'product-create',
+    style: 'alert',
+    info: 'Продукт створений',
   })
   // ↑↑ сюди вводимо JSON дані
 })
