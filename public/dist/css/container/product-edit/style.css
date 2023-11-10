@@ -1,0 +1,81 @@
+.form {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 32px;
+  padding: 20px;
+  box-shadow: 0px 3px 20px -4px #cccccc;
+}
+.form__wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 20px;
+}
+.form__title-main {
+  font-size: 22px;
+  padding-bottom: 20px;
+}
+.form__title {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
+}
+.form__field-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+.form__description-wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.form__button-wrap {
+  display: grid;
+  height: 50px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.form__label {
+  font-size: 14px;
+}
+.form__label-after {
+  font-size: 10px;
+  color: rgb(195, 195, 195);
+}
+.form__input {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+.form__button {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 3px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  justify-content: center;
+}
+
+.button-save {
+  border-radius: 3px;
+  background-color: rgb(0, 98, 255);
+  color: white;
+}
+
+.button-del {
+  border-radius: 3px;
+  background-color: red;
+  color: white;
+}
+
+/*# sourceMappingURL=style.css.map */
