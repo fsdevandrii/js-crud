@@ -6,9 +6,10 @@
 <main>
 
   <section>
+    {{#with data}}
     <div class="form">
 
-      <form method="get" action="/prouct-edit">
+      <form method="POST" action="/product-edit">
         <h3 class="form__title-main">
           Інформація про товар
         </h3>
@@ -18,21 +19,21 @@
             <div class="form__content">
               <div class="form__field">
                 <label for="product-info" class="form__label">Назва товару</label>
-                <input type="product-info" name="product-info" class="form__input">
+                <input value="{{name}}" type="product-info" name="product-info" class="form__input">
               </div>
             </div>
 
             <div class="form__content">
               <div class="form__field">
                 <label for="product-price" class="form__label">Ціна</label>
-                <input type="product-price" name="product-price" class="form__input">
+                <input value="{{price}}" type="product-price" name="product-price" class="form__input">
               </div>
             </div>
 
             <div class="form__content">
               <div class="form__field">
                 <label for="product-id" class="form__label">ID</label>
-                <input type="product-id" name="product-id" class="form__input">
+                <input value="{{id}}" type="product-id" name="product-id" class="form__input">
               </div>
             </div>
           </div>
@@ -41,7 +42,8 @@
             <div class="form__content">
               <div class="form__field">
                 <label for="product-description" class="form__label">Короткий опис товару</label>
-                <input type="product-description" name="product-description" class="form__input">
+                <input value="{{description}}" type="product-description" name="product-description"
+                  class="form__input">
 
               </div>
             </div>
@@ -49,13 +51,14 @@
 
           <div class="form__button-wrap">
             <button class="form__button button-save">Зберегти оновлення</button>
-            <button class="form__button button-del">Видалити товар</button>
+            <a href="/product-delete?id={{id}}" class="form__button button-del">Видалити товар</a>
           </div>
 
         </div>
       </form>
 
     </div>
+    {{/with}}
   </section>
 
 </main>

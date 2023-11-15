@@ -54,9 +54,11 @@
   padding: 8px;
 }
 .form__button {
-  border: 1px solid #ddd;
-  padding: 8px;
+  text-align: center;
   border-radius: 3px;
+  color: white;
+  padding: 16px 8px;
+  text-decoration: none;
 }
 
 main {
@@ -67,15 +69,11 @@ main {
 }
 
 .button-save {
-  border-radius: 3px;
   background-color: rgb(0, 98, 255);
-  color: white;
 }
 
 .button-del {
-  border-radius: 3px;
   background-color: red;
-  color: white;
 }
 
 /*# sourceMappingURL=style.css.map */
