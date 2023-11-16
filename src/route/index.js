@@ -97,39 +97,28 @@ class Product {
 
   static updateById = (id, data) => {
     const product = this.getById(id)
-
     const { name, price, description } = data
+
     if (product) {
       if (name) {
         product.name = name
-      }
-      if (price) {
+      } else if (price) {
         product.price = price
-      }
-      if (description) {
+      } else if (description) {
         product.description = description
       }
+
       return true
     } else {
       return false
     }
   }
-  // static update = (
-  //   name,
-  //   price,
-  //   description,
-  //   { product },
-  // ) => {
-  //   if (name) {
-  //     product.name = name
-  //   }
-  //   if (price) {
-  //     product.price = price
-  //   }
-  //   if (description) {
-  //     product.description = description
-  //   }
-  // }
+
+  static update = (name, { product }) => {
+    if (name) {
+      product.name = name
+    }
+  }
 }
 // ================================================================
 

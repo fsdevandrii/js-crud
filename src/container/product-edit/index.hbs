@@ -6,14 +6,13 @@
 <main>
 
   <section>
-    {{#with data}}
     <div class="form">
+      <h3 class="form__title-main">
+        Інформація про товар
+      </h3>
 
+      {{#with data}}
       <form method="POST" action="/product-edit">
-        <h3 class="form__title-main">
-          Інформація про товар
-        </h3>
-
         <div class="form__wrap">
           <div class="form__field-wrap">
             <div class="form__content">
@@ -56,15 +55,11 @@
 
         </div>
       </form>
+      {{/with}}
 
     </div>
-    {{/with}}
   </section>
-
 </main>
-
-
-
 
 {{!
 Цей код містить лише те, що буде виводитись в

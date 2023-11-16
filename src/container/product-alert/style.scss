@@ -37,13 +37,17 @@
 }
 
 main {
+  .return__text {
+    display: flex;
+    justify-content: center;
+  }
   .return__title {
     font-size: 18px;
     font-weight: 400;
   }
 
   .return__description {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 400;
   }
 }

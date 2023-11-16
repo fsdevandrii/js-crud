@@ -26,12 +26,16 @@
   box-shadow: 0px 3px 20px -4px #cccccc;
 }
 
+main .return__text {
+  display: flex;
+  justify-content: center;
+}
 main .return__title {
   font-size: 18px;
   font-weight: 400;
 }
 main .return__description {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 400;
 }
 
