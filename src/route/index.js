@@ -96,23 +96,40 @@ class Product {
   }
 
   static updateById = (id, data) => {
-    const user = this.getById(id)
+    const product = this.getById(id)
 
-    const { name } = data
+    const { name, price, description } = data
     if (product) {
       if (name) {
         product.name = name
+      }
+      if (price) {
+        product.price = price
+      }
+      if (description) {
+        product.description = description
       }
       return true
     } else {
       return false
     }
   }
-  static update = (name, { product }) => {
-    if (name) {
-      product.name = name
-    }
-  }
+  // static update = (
+  //   name,
+  //   price,
+  //   description,
+  //   { product },
+  // ) => {
+  //   if (name) {
+  //     product.name = name
+  //   }
+  //   if (price) {
+  //     product.price = price
+  //   }
+  //   if (description) {
+  //     product.description = description
+  //   }
+  // }
 }
 // ================================================================
 
@@ -319,17 +336,17 @@ router.post('/product-edit', function (req, res) {
 
 router.get('/product-delete', function (req, res) {
   // res.render генерує нам HTML сторінку
+
   const { id } = req.query
-  const product = Product.deleteById(Number(id))
+  Product.deleteById(Number(id))
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('prodduct-alert', {
+  res.render('product-alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'product-alert',
     info: 'Товар видалений',
   })
   // ↑↑ сюди вводимо JSON дані
 })
-
 // ================================================================
 // Підключаємо роутер до бек-енду
 module.exports = router
