@@ -62,17 +62,16 @@ class Product {
   static #list = []
 
   constructor(name, price, description) {
-    this.id = Math.floor(Math.random() * 100000)
-    this.createDate = new Date().toISOString()
     this.name = name
     this.price = price
     this.description = description
+    this.id = Math.floor(Math.random() * 100000)
+    this.createDate = () => {
+      this.date = new Date().toISOString()
+    }
   }
 
-  static getList = () => {
-    return this.#list
-  }
-
+  static getList = () => this.#list
   checkId = (id) => this.id === id
 
   static add = (product) => {
@@ -200,7 +199,6 @@ router.post('/user-update', function (req, res) {
 // ================================================================
 router.get('/product-create', function (req, res) {
   // res.render генерує нам HTML сторінку
-  const list = Product.getList()
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('product-create', {
@@ -225,20 +223,6 @@ router.post('/product-create', function (req, res) {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'product-alert',
     info: 'Продукт створений',
-  })
-  // ↑↑ сюди вводимо JSON дані
-})
-
-// ================================================================
-router.get('/product-alert', function (req, res) {
-  // res.render генерує нам HTML сторінку
-
-  href = '/product-list'
-
-  // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('product-alert', {
-    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'product-alert',
   })
   // ↑↑ сюди вводимо JSON дані
 })
