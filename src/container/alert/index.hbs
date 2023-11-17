@@ -1,0 +1,36 @@
+{{!
+Це код container файлу для index сторінки,
+в якому міститься код, котрий буде віддаватися по шляху (PATH) - "/"
+}}
+
+<main>
+
+  {{!-- Веpстка повернутися назад для: container/alert --}}
+
+  <section>
+    <div class="return__block">
+
+      <div class="return__wrap">
+        <div class="return__text">
+          <h3 class="return__title">{{data.message}}</h3>
+          <p class="return__description">{{data.info}}</p>
+        </div>
+        <div class="button__wrap">
+          <a href="{{data.link}}" class="return__button button-prymary">Повернутися назад</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+
+
+{{!
+Цей код містить лише те, що буде виводитись в
+
+<body>
+  Адже наш layout/default.hbs має вже структуру HTML
+  }}
