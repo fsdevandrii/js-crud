@@ -19,7 +19,7 @@
 .product__title {
   font-size: 16px;
 }
-.product__dedscription {
+.product__description {
   font-size: 14px;
 }
 .product__id {
@@ -32,6 +32,7 @@
 .product__button {
   font-size: 16px;
   color: rgb(0, 98, 255);
+  text-decoration: none;
 }
 
 .price__wrap {
