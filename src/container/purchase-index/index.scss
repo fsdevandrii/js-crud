@@ -9,11 +9,12 @@
   flex-direction: column;
   gap: s.space(10);
   padding: s.space(10);
+  font-family: 'Roboto', sans-serif;
 }
 
 .product-list {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: s.space(5);
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: s.space(6);
 }

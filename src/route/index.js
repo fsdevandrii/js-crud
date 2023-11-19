@@ -4,7 +4,87 @@ const express = require('express')
 const router = express.Router()
 
 // ================================================================
-// class Purchase {}
+class Product {
+  static #list = []
+
+  static #count = 0
+
+  constructor(
+    img,
+    title,
+    description,
+    category,
+    price,
+    amount = 0,
+  ) {
+    this.id = ++Product.#count // Генеруємо уникальный ID для товару
+    this.img = img
+    this.title = title
+    this.description = description
+    this.category = category
+    this.price = price
+    this.amount = amount
+  }
+
+  static add = (...data) => {
+    const newProduct = new Product(...data)
+
+    this.#list.push(newProduct)
+  }
+
+  static getList = () => {
+    return this.#list
+  }
+
+  static getById = (id) => {
+    return this.#list.find((product) => product.id === id)
+  }
+
+  static getRandomList = (id) => {
+    // Фильтруемо товары щоб илучити той, з яким порівнюємо ID
+    const filteredList = this.#list.filter(
+      (product) => product.id !== id,
+    )
+
+    // Відсортуємо за допомогою Math.random() та перекмішаємо масив
+    const shuffledList = filteredList.sort(
+      () => Math.random() - 0.5,
+    )
+    // Повертаємо перші три елементи з перемішаного масиву
+    return shuffledList.slice(0, 3)
+  }
+}
+
+Product.add(
+  'https://picsum.photos/200/300',
+  'Компютер Artline Gaming (X43v31) AMD Ryzen 5 3600/',
+  'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+  [
+    { id: 1, text: 'Готовий до відправки' },
+    { id: 2, text: 'Топ продажів' },
+  ],
+  27000,
+  10,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  'Компютер Artline Gaming (X43v31) AMD Ryzen 5 3600/',
+  'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+  [{ id: 2, text: 'Топ продажів' }],
+  20000,
+  10,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  'Компютер Artline Gaming (X43v31) AMD Ryzen 5 3600/',
+  'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+  [{ id: 1, text: 'Готовий до відправки' }],
+  40000,
+  10,
+)
+
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
@@ -19,16 +99,7 @@ router.get('/', function (req, res) {
     style: 'purchase-index',
 
     data: {
-      img: 'https://picsum.photos/200/300',
-      title:
-        'Компютер Artline Gaming (X43v31) AMD Ryzen 5 3600/',
-      description:
-        'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
-      category: [
-        { id: 1, text: 'Готовий до відправки' },
-        { id: 2, text: 'Топ продажів' },
-      ],
-      price: 27000,
+      list: Product.getList(),
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -57,7 +128,63 @@ router.get('/alert', function (req, res) {
 })
 
 // ================================================================
+router.get('/purchase-product', function (req, res) {
+  const id = Number(req.query.id)
 
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-product', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-product',
+
+    data: {
+      list: Product.getRandomList(id),
+      product: Product.getById(id),
+    },
+  })
+})
+// ================================================================
+router.post('/purchase-create', function (req, res) {
+  const id = Number(req.query.id)
+  const amount = Number(req.body.amount)
+
+  if (amount < 1) {
+    return res.render('alert', {
+      style: 'alert',
+
+      data: {
+        message: 'Помилка',
+        info: 'Некоректна кількість товару',
+        link: '/purchase-product?id=${id}',
+      },
+    })
+  }
+
+  const prodduct = Product.getById(id)
+
+  if (product.amount < 1) {
+    return res.render('alert', {
+      style: 'alert',
+
+      data: {
+        message: 'Помилка',
+        info: 'Такої кількісті товару нема в наявності',
+        link: '/purchase-product?id=${id}',
+      },
+    })
+  }
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-product', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-product',
+
+    data: {
+      list: Product.getRandomList(id),
+      product: Product.getById(id),
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
 // ================================================================
 // Підключаємо роутер до бек-енду
 module.exports = router
