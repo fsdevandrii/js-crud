@@ -70,7 +70,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
   padding: 20px;
   border: 1ps solid #b3b3b3;
   border-radius: 10px;
@@ -81,9 +81,19 @@
   gap: 8px;
 }
 
+.cart__block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .cart__item {
   display: flex;
   justify-content: space-between;
+}
+
+.accent-text {
+  font-weight: 700;
 }
 
 /*# sourceMappingURL=index.css.map */
