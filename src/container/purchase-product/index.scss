@@ -5,6 +5,7 @@
   purchseProduct;
 @use '../../component/field/style.scss' as field;
 @use '../../component/divider/style.scss' as divider;
+@use '../../component/button/style.scss' as button;
 
 .main {
   display: flex;
@@ -59,19 +60,19 @@
   color: s.color(green);
 }
 
-.product-info__button {
-  background-color: s.color(blue);
-  color: rgb(255, 255, 255);
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
+// .product-info__button {
+//   background-color: s.color(blue);
+//   color: rgb(255, 255, 255);
+//   border: none;
+//   border-radius: 5px;
+//   padding: 10px 20px;
+//   font-size: 16px;
+//   cursor: pointer;
+//   transition: opacity 0.3s ease;
 
-  text-decoration: none;
+//   text-decoration: none;
 
-  &:hover {
-    opacity: 0.7;
-  }
-}
+//   &:hover {
+//     opacity: 0.7;
+//   }
+// }

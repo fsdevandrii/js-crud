@@ -3,6 +3,7 @@
 @use '../../component/heading/style.scss' as heading;
 @use '../../component/purchase-product/style.scss' as
   purchseProduct;
+@use '../../component/button/style.scss' as button;
 
 .main {
   display: flex;

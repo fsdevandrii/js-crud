@@ -85,6 +85,67 @@ Product.add(
   10,
 )
 
+class Purchase {
+  static DELIVERY_PRICE = 150
+  static #count = 0
+  static #list = []
+
+  constructor(data, product) {
+    this.id = ++Purchase.#count
+
+    this.firstname = data.firstname
+    this.lastname = data.lastname
+
+    this.phone = data.phone
+    this.email = data.email
+
+    this.comment = data.comment || null
+
+    this.bonus = data.bonus || 0
+
+    this.promocode = data.promocode || null
+
+    this.totalPrice = data.totalPrice
+    this.productPrice = data.productPrice
+    this.deliveryPrice = data.deliveryPrice
+
+    this.product = product
+  }
+
+  static add = (...arg) => {
+    const newPurchase = new Purchase(...arg)
+
+    this.#list.push(newPurchase)
+
+    return newPurchase
+  }
+
+  static getList = () => {
+    return Purchase.#list.reverse()
+  }
+
+  static getById = (id) => {
+    return Purchase.#list.find((item) => item.id === id)
+  }
+
+  static updateById = (id, data) => {
+    const purchase = Purchase.#list.find(
+      (item) => item.id === id,
+    )
+    if (purchase) {
+      if (data.firstname)
+        purchase.firstname = data.firstname
+      if (data.lastname) purchase.lastname = data.lastname
+      if (data.phone) purchase.phohe = data.phone
+      if (data.email) purchase.email = data.email
+
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
@@ -159,7 +220,7 @@ router.post('/purchase-create', function (req, res) {
     })
   }
 
-  const prodduct = Product.getById(id)
+  const product = Product.getById(id)
 
   if (product.amount < 1) {
     return res.render('alert', {
@@ -173,6 +234,36 @@ router.post('/purchase-create', function (req, res) {
     })
   }
 
+  console.log(product, amount)
+
+  const productPrice = product.price * amount
+  const totalPrice = productPrice + Purchase.DELIVERY_PRICE
+
+  res.render('purchase-create'),
+    {
+      style: 'purchase-create',
+
+      data: {
+        id: product.id,
+
+        cart: [
+          {
+            text: '$(product.title) ($(amount) шт)',
+            price: productPrice,
+          },
+          {
+            text: 'Доставка',
+            price: Purchase.DELIVERY_PRICE,
+          },
+        ],
+        totalPrice,
+        productPrice,
+        deliveryPrice: Purchase.DELIVERY_PRICE,
+      },
+    }
+
+  // ================================================================
+
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-product', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
@@ -185,6 +276,23 @@ router.post('/purchase-create', function (req, res) {
   })
   // ↑↑ сюди вводимо JSON дані
 })
+
+// ================================================================
+router.post('/purchse-submit'),
+  function (req, res) {
+    console.log(req, query)
+    console.log(req, body)
+
+    res.render('alert', {
+      style: 'alert',
+
+      data: {
+        message: 'Успішно',
+        info: 'Замовлення створено',
+        link: '/purchase-list',
+      },
+    })
+  }
 // ================================================================
 // Підключаємо роутер до бек-енду
 module.exports = router

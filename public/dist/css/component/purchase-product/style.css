@@ -42,19 +42,4 @@
   color: #008d09;
 }
 
-.product-card__button {
-  background-color: #1818ff;
-  color: rgb(255, 255, 255);
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-  text-decoration: none;
-}
-.product-card__button:hover {
-  opacity: 0.7;
-}
-
 /*# sourceMappingURL=style.css.map */

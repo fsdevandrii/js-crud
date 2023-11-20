@@ -31,7 +31,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 20px;
+    padding: s.space(5);
     box-shadow: 0px 3px 20px -4px #cccccc;
   }
 }
@@ -57,9 +57,9 @@ main {
 }
 
 .button-prymary {
-  padding: 15px 50px;
-  border-radius: 3px;
-  background-color: rgb(0, 98, 255);
+  padding: 20px 50px;
+  border-radius: s.space(1);
+  background-color: s.color(blue);
   color: white;
   cursor: pointer;
 }
