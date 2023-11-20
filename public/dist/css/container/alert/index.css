@@ -29,6 +29,7 @@
 main .return__text {
   display: flex;
   justify-content: center;
+  font-family: "Roboto", sans-serif;
 }
 main .return__title {
   font-size: 22px;

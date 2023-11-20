@@ -87,8 +87,34 @@ Product.add(
 
 class Purchase {
   static DELIVERY_PRICE = 150
+  static #BONUS_FACTOR = 0.1
+
   static #count = 0
   static #list = []
+
+  static #bonusAccount = new Map()
+
+  static getBonusBalance = (email) => {
+    return Purchase.#bonusAccount.get(email) || 0
+  }
+
+  static updateBonusBalance = (
+    email,
+    price,
+    bonusUse = 0,
+  ) => {
+    const amount = price * Purchase.#BONUS_FACTOR
+
+    const currentBalance = Purchase.getBonusBalance(email)
+
+    const updateBalance = currentBalance + amount - bonusUse
+
+    Purchase.#bonusAccount.set(email, updateBalance)
+
+    console.log(email, updateBalance)
+
+    return amount
+  }
 
   constructor(data, product) {
     this.id = ++Purchase.#count
@@ -108,6 +134,7 @@ class Purchase {
     this.totalPrice = data.totalPrice
     this.productPrice = data.productPrice
     this.deliveryPrice = data.deliveryPrice
+    this.amount = data.amount
 
     this.product = product
   }
@@ -129,9 +156,8 @@ class Purchase {
   }
 
   static updateById = (id, data) => {
-    const purchase = Purchase.#list.find(
-      (item) => item.id === id,
-    )
+    const purchase = Purchase.getById(id)
+
     if (purchase) {
       if (data.firstname)
         purchase.firstname = data.firstname
@@ -146,6 +172,32 @@ class Purchase {
   }
 }
 
+class Promocode {
+  static #list = []
+
+  constructor(name, factor) {
+    this.name = name
+    this.factor = factor
+  }
+
+  static add = (name, factor) => {
+    const newPromocode = new Promocode(name, factor)
+    Promocode.#list.push(newPromocode)
+    return newPromocode
+  }
+
+  static getByName = (name) => {
+    return this.#list.find((promo) => promo.name === name)
+  }
+
+  static calc = (promo, price) => {
+    return price * promo.factor
+  }
+}
+
+Promocode.add('SUMMER2023', 0.9)
+Promocode.add('DISCOUNT50', 0.5)
+Promocode.add('SALE25', 0.75)
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
@@ -204,6 +256,7 @@ router.get('/purchase-product', function (req, res) {
   })
 })
 // ================================================================
+
 router.post('/purchase-create', function (req, res) {
   const id = Number(req.query.id)
   const amount = Number(req.body.amount)
@@ -213,9 +266,9 @@ router.post('/purchase-create', function (req, res) {
       style: 'alert',
 
       data: {
-        message: 'Помилка',
+        link: `/purchase-product?id=${id}`,
+        title: 'Помилка',
         info: 'Некоректна кількість товару',
-        link: '/purchase-product?id=${id}',
       },
     })
   }
@@ -227,9 +280,9 @@ router.post('/purchase-create', function (req, res) {
       style: 'alert',
 
       data: {
-        message: 'Помилка',
-        info: 'Такої кількісті товару нема в наявності',
-        link: '/purchase-product?id=${id}',
+        link: `/purchase-product?id=${id}`,
+        title: 'Помилка',
+        info: 'Такої кількості товару немає в намявнсисті',
       },
     })
   }
@@ -239,28 +292,30 @@ router.post('/purchase-create', function (req, res) {
   const productPrice = product.price * amount
   const totalPrice = productPrice + Purchase.DELIVERY_PRICE
 
-  res.render('purchase-create'),
-    {
-      style: 'purchase-create',
+  res.render('purchase-create', {
+    style: 'purchase-create',
 
-      data: {
-        id: product.id,
+    data: {
+      id: product.id,
+      title: 'Ваше замовлення',
+      subtitle: 'Оформлення замовлення',
 
-        cart: [
-          {
-            text: '$(product.title) ($(amount) шт)',
-            price: productPrice,
-          },
-          {
-            text: 'Доставка',
-            price: Purchase.DELIVERY_PRICE,
-          },
-        ],
-        totalPrice,
-        productPrice,
-        deliveryPrice: Purchase.DELIVERY_PRICE,
-      },
-    }
+      cart: [
+        {
+          text: `${product.title} (${amount} шт)`,
+          price: product.price,
+        },
+        {
+          text: 'Вартість доставки',
+          price: Purchase.DELIVERY_PRICE,
+        },
+      ],
+      totalPrice,
+      productPrice,
+      deliveryPrice: Purchase.DELIVERY_PRICE,
+      amount,
+    },
+  })
 
   // ================================================================
 
@@ -278,21 +333,149 @@ router.post('/purchase-create', function (req, res) {
 })
 
 // ================================================================
-router.post('/purchse-submit'),
-  function (req, res) {
-    console.log(req, query)
-    console.log(req, body)
+router.post('/purchase-submit', function (req, res) {
+  const id = Number(req.query.id)
 
-    res.render('alert', {
+  let {
+    totalPrice,
+    productPrice,
+    deliveryPrice,
+    amount,
+
+    firstname,
+    lastname,
+    email,
+    phone,
+
+    promocode,
+    bonus,
+  } = req.body
+
+  const product = Product.getById(id)
+
+  if (!product) {
+    return res.render('alert', {
       style: 'alert',
+      component: ['button', 'heading'],
 
       data: {
-        message: 'Успішно',
-        info: 'Замовлення створено',
+        message: 'Помилка',
+        info: 'Товар не знайдено',
         link: '/purchase-list',
       },
     })
   }
+
+  if (product < amount) {
+    return res.render('alert', {
+      style: 'alert',
+      component: ['button', 'heading'],
+
+      data: {
+        message: 'Помилка',
+        info: 'Товар відсутній у потрібній кількості',
+        link: '/purchase-list',
+      },
+    })
+  }
+
+  totalPrice = Number(totalPrice)
+  productPrice = Number(productPrice)
+  deliveryPrice = Number(deliveryPrice)
+  amount = Number(amount)
+  bonus = Number(bonus)
+
+  if (
+    isNaN(totalPrice) ||
+    isNaN(productPrice) ||
+    isNaN(deliveryPrice) ||
+    isNaN(amount) ||
+    isNaN(bonus)
+  ) {
+    return res.render('alert', {
+      style: 'alert',
+      component: ['button', 'heading'],
+
+      data: {
+        message: 'Помилка',
+        info: 'Фігові дані',
+        link: '/purchase-list',
+      },
+    })
+  }
+
+  if ((!firstname, !lastname, !email, !phone, !delivery)) {
+    return res.render('alert', {
+      style: 'alert',
+      component: ['button', 'heading'],
+
+      data: {
+        message: 'Заповніть обовязкові поля',
+        info: 'Бракує даних',
+        link: '/purchase-list',
+      },
+    })
+  }
+
+  if (bonus || bonus > 0) {
+    const bonusAccount = Purchase.getBonusBalance(email)
+
+    console.log(bonusAccount)
+
+    if (bonus > bonusAccount) {
+      bonus = bonusAmount
+    }
+
+    Purchase.updateBonusBalance(email, totalPrice, bonus)
+
+    totalPrice -= bonus
+  } else {
+    Purchase.updateBonusBalance(email, totalPrice, 0)
+  }
+
+  if (promocode) {
+    promocode = Promocode.getByName(promocode)
+
+    if (promocode) {
+      totalPrice = Promocode.call(promocode, totalPrice)
+    }
+  }
+
+  if (totalPrice < 0) totalPrice = 0
+
+  const purchase = Purchase.add(
+    {
+      totalPrice,
+      productPrice,
+      deliveryPrice,
+      amount,
+
+      firstname,
+      lastname,
+      email,
+      phone,
+
+      promocode,
+      bonus,
+      comment,
+      delivery,
+    },
+    product,
+  )
+
+  console.log(purchase)
+
+  res.render('alert', {
+    style: 'alert',
+    component: ['button', 'heading'],
+
+    data: {
+      message: 'Успішно',
+      info: 'Замовлення створено',
+      link: '/purchase-list',
+    },
+  })
+})
 // ================================================================
 // Підключаємо роутер до бек-енду
 module.exports = router
