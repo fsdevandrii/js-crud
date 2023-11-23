@@ -1,0 +1,92 @@
+<main class="main">
+
+
+
+    <div class="purchase-info__title">{{title}}</div>
+
+    {{#with data}}
+    <div class="purchase-info__id text">
+        <div class="info-id__title title">ID:</div>
+        <div class="info-id__id">54872{{id}}</div>
+    </div>
+
+    <div class="main__divider">{{> divider}}</div>
+
+    <div class="twin-block__wrap ">
+
+        <div class="twin-block text">
+            <div class="wrap__1">
+                <div class="title">Ім'я:</div>
+                <div class="data">Олександр{{firstname}}</div>
+            </div>
+
+
+            <div class="wrap__2">
+                <div class="title">Прізвище:</div>
+                <div class="data">{{lastname}}Семенов</div>
+            </div>
+        </div>
+
+        <div class="twin-block text">
+            <div class="wrap__1">
+                <div class="title">Телефон:</div>
+                <div class="data">{{phone}}+380951234567</div>
+            </div>
+
+
+            <div class="wrap__2">
+                <div class="title">Електронна пошта:</div>
+                <div class="data">{{email}}o.semenov@example.com</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="main__divider">{{> divider}}</div>
+
+    <div class="product-list text">
+        <div class="wrap">
+            <div class="product-title title">Назва товару:</div>
+            <div class="product-name">{{product}}Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600</div>
+        </div>
+        <div class="wrap">
+            <div class="coment-title title">Коментар:</div>
+            <div class="title-description">Подзвонити за 30 хв</div>
+        </div>
+
+    </div>
+
+    <div class="main__divider">{{> divider}}</div>
+
+    <div class="twin-block__wrap">
+        <div class="twin-block text">
+            <div class="wrap__1">
+                <div class="title">{{productPrice}}Вартість товарів:</div>
+                <div class="data">113 109₴</div>
+            </div>
+
+
+            <div class="wrap__2">
+                <div class="title">Вартість доставки:</div>
+                <div class="data">{{deliveryPrice}}150₴</div>
+            </div>
+        </div>
+
+        <div class="twin-block text">
+            <div class="wrap__1">
+                <div class="title">Сума до сплати:</div>
+                <div class="data">{{totalPrice}}113 109₴</div>
+            </div>
+
+
+            <div class="wrap__2">
+                <div class="title">Нараховані бонуси:</div>
+                <div class="data">{{bonus}}1131.09₴</div>
+            </div>
+
+        </div>
+    </div>
+    {{/with}}
+    <div class="button-info">{{> button}}</div>
+</main>

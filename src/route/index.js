@@ -98,12 +98,16 @@ class Purchase {
     return Purchase.#bonusAccount.get(email) || 0
   }
 
+  static calcBonusAmount = (value) => {
+    return value * Purchase.#BONUS_FACTOR
+  }
+
   static updateBonusBalance = (
     email,
     price,
     bonusUse = 0,
   ) => {
-    const amount = price * Purchase.#BONUS_FACTOR
+    const amount = this.calcBonusAmount(price)
 
     const currentBalance = Purchase.getBonusBalance(email)
 
@@ -294,6 +298,8 @@ router.post('/purchase-create', function (req, res) {
 
   const productPrice = product.price * amount
   const totalPrice = productPrice + Purchase.DELIVERY_PRICE
+  const bonus = Purchase.calcBonusAmount(totalPrice)
+
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-create', {
     style: 'purchase-create',
@@ -318,6 +324,7 @@ router.post('/purchase-create', function (req, res) {
       productPrice,
       amount,
       deliveryPrice: Purchase.DELIVERY_PRICE,
+      bonus,
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -339,9 +346,8 @@ router.post('/purchase-submit', function (req, res) {
     lastname,
     email,
     phone,
-
     comment,
-    delivery,
+
     promocode,
     bonus,
   } = req.body
@@ -376,11 +382,13 @@ router.post('/purchase-submit', function (req, res) {
   productPrice = Number(productPrice)
   deliveryPrice = Number(deliveryPrice)
   amount = Number(amount)
+  bonus = Number(bonus)
   if (
     isNaN(totalPrice) ||
     isNaN(productPrice) ||
     isNaN(deliveryPrice) ||
-    isNaN(amount)
+    isNaN(amount) ||
+    isNaN(bonus)
   ) {
     return res.render('alert', {
       style: 'alert',
@@ -405,7 +413,9 @@ router.post('/purchase-submit', function (req, res) {
   }
   if (bonus || bonus > 0) {
     const bonusAmount = Purchase.getBonusBalance(email)
+
     console.log(bonusAmount)
+
     if (bonus > bonusAmount) {
       bonus = bonusAmount
     }
@@ -432,14 +442,15 @@ router.post('/purchase-submit', function (req, res) {
       productPrice,
       deliveryPrice,
       amount,
+      bonus,
+
       firstname,
       lastname,
       email,
       phone,
+
       promocode,
-      bonus,
       comment,
-      delivery,
     },
     product,
   )
@@ -455,6 +466,53 @@ router.post('/purchase-submit', function (req, res) {
     },
   })
   // ↑↑ сюди вводимо JSON дані
+})
+// ================================================================
+router.get('/purchase-list', function (req, res) {
+  const list = Purchase.getList()
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-list', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-list',
+    title: 'Мої замовлення',
+
+    data: {
+      purchases: {
+        list,
+      },
+    },
+  })
+})
+// ================================================================
+router.get('/purchase-info', function (req, res) {
+  const id = Number(req.query.id)
+  const purchase = Purchase.getById(id)
+  const bonus = Purchase
+    .calcBonusAmount
+    // purchase.totalPrice,
+    ()
+
+  console.log('purchase:', purchase, bonus)
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-info', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-info',
+    title: 'Інормація про замовлення',
+
+    data: {
+      // id: purchase.id,
+      //   firstname: purchase.firstname,
+      //   lastname: purchase.lastname,
+      //   phone: purchase.phone,
+      //   email: purchase.email,
+      //   delivery: purchase.delivery,
+      //   product: purchase.product.title,
+      //   productPrice: purchase.productPrice,
+      //   deliveryPrice: purchase.deliveryPrice,
+      //   totalPrice: purchase.totalPrice,
+      //   bonus: bonus,
+    },
+  })
 })
 // ================================================================
 // Підключаємо роутер до бек-енду
