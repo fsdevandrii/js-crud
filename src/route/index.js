@@ -484,35 +484,134 @@ router.get('/purchase-list', function (req, res) {
   })
 })
 // ================================================================
+
 router.get('/purchase-info', function (req, res) {
+  // res.render генерує нам HTML сторінку
   const id = Number(req.query.id)
   const purchase = Purchase.getById(id)
-  const bonus = Purchase
-    .calcBonusAmount
-    // purchase.totalPrice,
-    ()
+  const bonus = Purchase.calcBonusAmount(
+    purchase.totalPrice,
+  )
 
   console.log('purchase:', purchase, bonus)
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-info', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-info',
+    component: ['heading', 'divider', 'button'],
     title: 'Інормація про замовлення',
 
     data: {
-      // id: purchase.id,
-      //   firstname: purchase.firstname,
-      //   lastname: purchase.lastname,
-      //   phone: purchase.phone,
-      //   email: purchase.email,
-      //   delivery: purchase.delivery,
-      //   product: purchase.product.title,
-      //   productPrice: purchase.productPrice,
-      //   deliveryPrice: purchase.deliveryPrice,
-      //   totalPrice: purchase.totalPrice,
-      //   bonus: bonus,
+      id: purchase.id,
+      firstname: purchase.firstname,
+      lastname: purchase.lastname,
+      phone: purchase.phone,
+      email: purchase.email,
+      delivery: purchase.delivery,
+      product: purchase.product.title,
+      productPrice: purchase.productPrice,
+      deliveryPrice: purchase.deliveryPrice,
+      totalPrice: purchase.totalPrice,
+      bonus: bonus,
     },
+    link: `/purchase-edit?id=${id}`,
   })
+})
+// ================================================================
+router.get('/purchase-edit', function (req, res) {
+  const id = Number(req.query.id)
+  const purchase = Purchase.getById(id)
+
+  if (!purchase) {
+    // Якщо товар з таким id не знайдено, відображаємо повідомлення про помилку
+    res.render('alert', {
+      style: 'alert',
+      component: ['button', 'heading'],
+
+      isError: true,
+      title: 'Помилка',
+      info: 'Замовлення з таким ID не знайдено',
+    })
+  } else {
+    // Якщо товар знайдено, передаємо його дані у шаблон product-edit
+    res.render('purchase-edit', {
+      style: 'purchase-edit',
+      component: ['heading', 'divider', 'field', 'button'],
+
+      title: 'Зміна данних замовлення',
+
+      data: {
+        id: purchase.id,
+        firstname: purchase.firstname,
+        lastname: purchase.lastname,
+        phone: purchase.phone,
+        email: purchase.email,
+        delivery: purchase.delivery,
+      },
+    })
+  }
+})
+// ================================================================
+router.post('/purchase-edit', function (req, res) {
+  const id = Number(req.query.id)
+  let { firstname, lastname, phone, email, delivery } =
+    req.body
+
+  const purchase = Purchase.getById(id)
+
+  console.log(purchase)
+
+  if (purchase) {
+    const newPurchase = Purchase.updateById(id, {
+      firstname,
+      lastname,
+      phone,
+      email,
+      delivery,
+    })
+
+    console.log(newPurchase)
+
+    // Якщо оновлення вдалося, відображаємо повідомлення про успіх
+    if (newPurchase) {
+      res.render('alert', {
+        style: 'alert',
+        component: ['button', 'heading'],
+
+        data: {
+          link: '/purchase-list',
+          title: 'Успішне виконання дії',
+          info: 'Товар успішно оновлено',
+        },
+      })
+    } else {
+      // Якщо оновлення не вдалося (наприклад, товару з таким id не існує),
+      // відображаємо повідомлення про помилку
+      res.render('alert', {
+        style: 'alert',
+        component: ['button', 'heading'],
+
+        data: {
+          link: '/purchase-list',
+          title: 'Помилка',
+          info: 'Не вдалося оновити товар',
+        },
+      })
+    }
+  } else {
+    // Якщо оновлення не вдалося (наприклад, товару з таким id не існує),
+    // відображаємо повідомлення про помилку
+    res.render('alert', {
+      style: 'alert',
+      component: ['button', 'heading'],
+
+      data: {
+        link: '/purchase-list',
+        title: 'Помилка',
+        info: 'Не вдалося оновити товар',
+      },
+    })
+  }
 })
 // ================================================================
 // Підключаємо роутер до бек-енду

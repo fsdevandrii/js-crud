@@ -4,12 +4,11 @@
     <div class="purchase">
         <div class="title">{{title}}</div>
         {{#with data.purchases}}
-        <a class="link" href='/purchase-info?id={{id}}'>
-            <div class="list">
-                {{#each list}}
-                {{> purchase-section}}
-                {{/each}}
-            </div>
+        <div class="list">
+            {{#each list}}
+            {{> purchase-section}}
+            {{/each}}
+        </div>
         </a>
         {{/with}}
     </div>
