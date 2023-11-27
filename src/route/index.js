@@ -166,7 +166,7 @@ class Purchase {
       if (data.firstname)
         purchase.firstname = data.firstname
       if (data.lastname) purchase.lastname = data.lastname
-      if (data.phone) purchase.phohe = data.phone
+      if (data.phone) purchase.phone = data.phone
       if (data.email) purchase.email = data.email
 
       return true
@@ -513,7 +513,6 @@ router.get('/purchase-info', function (req, res) {
       deliveryPrice: purchase.deliveryPrice,
       totalPrice: purchase.totalPrice,
       bonus: bonus,
-      link: `/purchase-edit?id=${id}`,
     },
   })
 })
