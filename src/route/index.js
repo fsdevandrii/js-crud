@@ -513,8 +513,8 @@ router.get('/purchase-info', function (req, res) {
       deliveryPrice: purchase.deliveryPrice,
       totalPrice: purchase.totalPrice,
       bonus: bonus,
+      link: `/purchase-edit?id=${id}`,
     },
-    link: `/purchase-edit?id=${id}`,
   })
 })
 // ================================================================
