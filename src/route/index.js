@@ -22,7 +22,7 @@ class Track {
   }
 
   // Статичний метод для отримання всього списку треків
-  static genList() {
+  static getList() {
     return this.#list.reverse()
   }
 }
@@ -58,16 +58,24 @@ Track.create(
   'https://picsum.photos/100/100',
 )
 
-console.log(Track.genList())
+console.log(Track.getList())
 
 class Playlist {
   // Статичне приватне поле для зберігання списку об'єктів Playlist
   static #list = []
 
-  constructor(name) {
-    this.id = Math.floor(1000 + Math.random() * 9000) // Генеруємо випадкове ID
+  constructor(name, image) {
+    this.id = Math.floor(1000 + Math.random() * 9000) //Генеруємо випадкове id
     this.name = name
-    this.track = []
+    this.tracks = []
+    this.image = image || '/img/my-playlist.jpg'
+  }
+
+  // Статичний метод для створення об'єкту Track і додавання його до списку #list
+  static create(name, image) {
+    const newPlaylist = new Playlist(name, image)
+    this.#list.push(newPlaylist)
+    return newPlaylist
   }
 
   // Статичний метод для створення об'єкту playList і додання до нього списку #list
@@ -77,7 +85,7 @@ class Playlist {
     return newPlaylist
   }
 
-  // Статичний метод для отримання всього списку плейлистів
+  // Статичний метод для отримання всього списку товарів
   static getList() {
     return this.#list.reverse()
   }
@@ -87,10 +95,47 @@ class Playlist {
 
     let randomTracks = allTracks
       .sort(() => 0.5 - Math.random())
-      .slice(0, 3)
+      .splice(0, 3)
+
     playlist.tracks.push(...randomTracks)
   }
+
+  static getById(id) {
+    return (
+      Playlist.#list.find(
+        (playlist) => playlist.id === id,
+      ) || null
+    )
+  }
+
+  deleteTrackById(trackId) {
+    this.tracks = this.tracks.filter(
+      (track) => track.id !== trackId,
+    )
+  }
+
+  static findListByValue(name) {
+    return this.#list.filter((playlist) =>
+      playlist.name
+        .toLowerCase()
+        .includes(name.toLowerCase()),
+    )
+  }
 }
+
+Playlist.makeMix(
+  Playlist.create('Favorites', '/img/favorites.jpg'),
+)
+
+Playlist.makeMix(Playlist.create('Mixed', '/img/mixed.jpg'))
+
+Playlist.makeMix(
+  Playlist.create('Random', '/img/random.jpg'),
+)
+
+Playlist.makeMix(
+  Playlist.create('My playlist', '/img/my-playlist.jpg'),
+)
 
 // ================================================================
 router.get('/', function (req, res) {
@@ -145,12 +190,52 @@ router.post('/spotify-create', function (req, res) {
 
   console.log(playlist)
 
-  res.render('spotify-create', {
-    style: 'spotify-create',
-    data: {},
+  res.render('alert', {
+    style: 'alert',
+    data: {
+      message: 'Успішно',
+      info: 'Плейліст створено',
+      link: '/spotify-playlist?id=${playlist.id}',
+    },
   })
 
   // ↑↑ сюди вводимо JSON дані
+})
+// ================================================================
+router.get('/spotify-playlist', function (req, res) {
+  const id = Number(req.query.id)
+
+  const playlist = Playlist.getById(id)
+
+  if (!playlist) {
+    return res.render('alert', {
+      style: 'alert',
+
+      data: {
+        message: 'Помилка',
+        info: 'Такого плейлиста не знайдено',
+        link: '/',
+      },
+    })
+  }
+  res.render('spotify-playlist', {
+    style: 'spotify-playlist',
+
+    data: {
+      playlistId: playlistId,
+      tracks: playlist.tracks,
+      name: playlist.name,
+    },
+  })
+
+  // ↑↑ сюди вводимо JSON дані
+})
+
+router.get('/spotify-track-delete', function (req, res) {
+  const playlistId = Number(req.query.playlistId)
+  const trackId = Number(req.query.trackId)
+
+  const playlist = Playlist.getById(playlistId)
 })
 // ================================================================
 // Підключаємо роутер до бек-енду
