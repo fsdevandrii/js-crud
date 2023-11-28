@@ -60,7 +60,7 @@ Track.create(
 
 console.log(Track.genList())
 
-class playList {
+class Playlist {
   // Статичне приватне поле для зберігання списку об'єктів Playlist
   static #list = []
 
@@ -72,9 +72,9 @@ class playList {
 
   // Статичний метод для створення об'єкту playList і додання до нього списку #list
   static create(name) {
-    const newPlayList = new PlayList(name)
-    this.#list.push(newPlayList)
-    return newPlayList
+    const newPlaylist = new Playlist(name)
+    this.#list.push(newPlaylist)
+    return newPlaylist
   }
 
   // Статичний метод для отримання всього списку плейлистів
@@ -82,13 +82,13 @@ class playList {
     return this.#list.reverse()
   }
 
-  static makeMix(playList) {
+  static makeMix(playlist) {
     const allTracks = Track.getList()
 
     let randomTracks = allTracks
       .sort(() => 0.5 - Math.random())
       .slice(0, 3)
-    playList.tracks.push(...randomTracks)
+    playlist.tracks.push(...randomTracks)
   }
 }
 
@@ -137,13 +137,13 @@ router.post('/spotify-create', function (req, res) {
     })
   }
 
-  const playList = Playlist.create(name)
+  const playlist = Playlist.create(name)
 
   if (isMix) {
-    Playlist.makeMix(playList)
+    Playlist.makeMix(playlist)
   }
 
-  console.log(playList)
+  console.log(playlist)
 
   res.render('spotify-create', {
     style: 'spotify-create',
