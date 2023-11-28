@@ -1,0 +1,28 @@
+<main class='main'>
+
+    {{> heading title="Зміна даниих"}}
+
+
+    {{#with data}}
+
+    {{> id}}
+
+    <form method="POST" action="/purchase-edit?id={{id}}" class='form-card'>
+
+        <div class="cart__block">
+            {{> field label='Прізвище' name='lastname'}}
+            {{> field label="Ім'я" name='firstname'}}
+        </div>
+        <div class="cart__block">
+            {{> field label='Мобільний телефон' name='phone'}}
+            {{> field label="Електронна пошта" name='email'}}
+        </div>
+
+        {{> button text="Оформити замовлення"}}
+
+    </form>
+    {{/with}}
+
+
+
+</main>

@@ -1,0 +1,96 @@
+<main class="main">
+
+
+
+    <div class="purchase-info__title">{{title}}</div>
+
+    {{#with data}}
+    <div class="purchase-info__id text">
+        <div class="info-id__title title">ID:</div>
+        <div class="info-id__id">{{id}}</div>
+    </div>
+
+    <div class="main__divider">{{> divider}}</div>
+
+    <div class="twin-block__wrap ">
+
+        <div class="twin-block text">
+            <div class="wrap__1">
+                <div class="title">Ім'я:</div>
+                <div class="data">{{firstname}}</div>
+            </div>
+
+
+            <div class="wrap__2">
+                <div class="title">Прізвище:</div>
+                <div class="data">{{lastname}}</div>
+            </div>
+        </div>
+
+        <div class="twin-block text">
+            <div class="wrap__1">
+                <div class="title">Телефон:</div>
+                <div class="data">{{phone}}</div>
+            </div>
+
+
+            <div class="wrap__2">
+                <div class="title">Електронна пошта:</div>
+                <div class="data">{{email}}</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="main__divider">{{> divider}}</div>
+
+    <div class="product-list text">
+        <div class="wrap">
+            <div class="product-title title">Назва товару:</div>
+            <div class="product-name">{{product}}</div>
+        </div>
+        <div class="wrap">
+            <div class="coment-title title">Коментар:</div>
+            <div class="title-description">Подзвонити за 30 хв</div>
+        </div>
+
+    </div>
+
+    <div class="main__divider">{{> divider}}</div>
+
+    <div class="twin-block__wrap">
+        <div class="twin-block text">
+            <div class="wrap__1">
+                <div class="title">Вартість товарів:</div>
+                <div class="data">{{productPrice}}</div>
+            </div>
+
+
+            <div class="wrap__2">
+                <div class="title">Вартість доставки:</div>
+                <div class="data">{{deliveryPrice}}</div>
+            </div>
+        </div>
+
+        <div class="twin-block text">
+            <div class="wrap__1">
+                <div class="title">Сума до сплати:</div>
+                <div class="data">{{totalPrice}}</div>
+            </div>
+
+
+            <div class="wrap__2">
+                <div class="title">Нараховані бонуси:</div>
+                <div class="data">{{bonus}}</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="main__divider">{{> divider}}</div>
+    <a href='/purchase-edit?id={{id}}'>
+        {{> button text="Змінити дані"}}
+    </a>
+    {{/with}}
+
+</main>

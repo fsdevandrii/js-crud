@@ -1,0 +1,18 @@
+<main class="main">
+
+
+    <div class="purchase">
+        <div class="title">{{title}}</div>
+        {{#with data.purchases}}
+        <div class="list">
+            {{#each list}}
+            {{> purchase-section}}
+            {{/each}}
+        </div>
+        </a>
+        {{/with}}
+    </div>
+
+
+
+</main>
