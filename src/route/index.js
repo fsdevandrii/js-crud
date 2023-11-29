@@ -57,6 +57,36 @@ Track.create(
   'Enleo',
   'https://picsum.photos/100/100',
 )
+Track.create(
+  'Інь Янь',
+  'MONATIK i ROXOLANA',
+  'https://picsum.photos/100/100',
+)
+Track.create(
+  'Baila Conmigo (Remix)',
+  'Selena Gomis i Rauw Alejandro',
+  'https://picsum.photos/100/100',
+)
+Track.create(
+  'Shameless',
+  'Camila Cabello',
+  'https://picsum.photos/100/100',
+)
+Track.create(
+  'DACITI',
+  'BAD BUNNY i JHAY',
+  'https://picsum.photos/100/100',
+)
+Track.create(
+  '11 PM',
+  'Maluma',
+  'https://picsum.photos/100/100',
+)
+Track.create(
+  'Інша любов',
+  'Enleo',
+  'https://picsum.photos/100/100',
+)
 
 console.log(Track.getList())
 
@@ -190,14 +220,24 @@ router.post('/spotify-create', function (req, res) {
 
   console.log(playlist)
 
-  res.render('alert', {
-    style: 'alert',
+  res.render('spotify-playlist', {
+    style: 'spotify-playlist',
+
     data: {
-      message: 'Успішно',
-      info: 'Плейліст створено',
-      link: '/spotify-playlist?id=${playlist.id}',
+      playlistId: playlist.id,
+      tracks: playlist.tracks,
+      name: playlist.name,
     },
   })
+
+  // res.render('alert', {
+  //   style: 'alert',
+  //   data: {
+  //     message: 'Успішно',
+  //     info: 'Плейліст створено',
+  //     link: `/spotify-playlist?id=${playlist.id}`,
+  //   },
+  // })
 
   // ↑↑ сюди вводимо JSON дані
 })
@@ -213,7 +253,7 @@ router.get('/spotify-playlist', function (req, res) {
 
       data: {
         message: 'Помилка',
-        info: 'Такого плейлиста не знайдено',
+        info: 'Такого плейліста не знайдено',
         link: '/',
       },
     })
@@ -222,7 +262,7 @@ router.get('/spotify-playlist', function (req, res) {
     style: 'spotify-playlist',
 
     data: {
-      playlistId: playlistId,
+      playlistId: playlist.id,
       tracks: playlist.tracks,
       name: playlist.name,
     },
@@ -236,6 +276,30 @@ router.get('/spotify-track-delete', function (req, res) {
   const trackId = Number(req.query.trackId)
 
   const playlist = Playlist.getById(playlistId)
+
+  if (!playlist) {
+    return res.render('alert', {
+      style: 'alert',
+
+      data: {
+        message: 'Помилка',
+        info: 'Такого плейліста не знайдено',
+        link: `/spotify-playlist?id=${playlistId}`,
+      },
+    })
+  }
+
+  playlist.deleteTrackById(trackId)
+
+  res.render('spotify-playlist', {
+    style: 'spotify-playlist',
+
+    data: {
+      playlistId: playlist.id,
+      tracks: playlist.tracks,
+      name: playlist.name,
+    },
+  })
 })
 // ================================================================
 // Підключаємо роутер до бек-енду
