@@ -97,13 +97,4 @@ a:hover {
   color: #8d8d8d;
 }
 
-.add-button {
-  display: grid;
-  grid-template-columns: 92px 1fr;
-  align-items: center;
-  gap: 24px;
-  color: #ddd;
-  font-size: 18px;
-}
-
 /*# sourceMappingURL=index.css.map */

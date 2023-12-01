@@ -1,18 +1,51 @@
-{{!
-Це код container файлу для index сторінки,
-в якому міститься код, котрий буде віддаватися по шляху (PATH) - "/"
-}}
+<main class="main">
+    <div class="main__content">
+        <div class="content__header">
+            <h1 class="title title--center">Моя бібліотека</h1>
+            <div class="contet__link">
+                <a href="/spotify-search"><img class="icon" src="img/svg/lens.svg"></a>
+                <a href="/spotify-create"><img class="icon" src="img/svg/plus.svg"></a>
+            </div>
+        </div>
 
-<main>
-  {{!-- {{{main}}} --}}
+        {{!-- <div class="library__list">
+
+            <div class="list__1">
+                <div class="list"><img src="img/svg/list_1.svg"></div>
+                <div class="list__title">Пісні, що сподобались</div>
+                <div class="list__amount">50 пісень</div>
+            </div>
+            <div class="list__2">
+                <div class="list"><img src="img/svg/list_2.svg"></div>
+                <div class="list__title">Спільний альбом</div>
+                <div class="list__amount">20 пісень</div>
+            </div>
+            <div class="list__3">
+                <div class="list"><img src="img/svg/list_3.svg"></div>
+                <div class="list__title">Інь Ян</div>
+                <div class="list__amount">10 пісень</div>
+            </div>
+            <div class="list__4">
+                <div class="list"><img src="img/svg/list_4.svg"></div>
+                <div class="list__title">Мій плейліст №1</div>
+                <div class="list__amount">36 пісень</div>
+            </div>
+        </div> --}}
+
+        <ul class="playlist__list">
+            {{#each list}}
+            <a href="/spotify-track-add?playlistId={{id}}" class="playlist__item">
+                <li class="playlist__content">
+                    <img src="{{image}}" alt="" class="playlist__image">
+                    <strong class="title">{{name}}</strong>
+                    <p class="text">{{amount}} пісень</p>
+                </li>
+            </a>
+            {{/each}}
+        </ul>
+
+    </div>
+
+
+
 </main>
-
-
-
-
-{{!
-Цей код містить лише те, що буде виводитись в
-
-<body>
-  Адже наш layout/default.hbs має вже структуру HTML
-  }}

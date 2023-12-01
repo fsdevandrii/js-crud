@@ -61,6 +61,41 @@ a:hover {
   font-size: 24px;
   color: #ddd;
 }
+.track__author {
+  font-size: 16px;
+  color: #8d8d8d;
+}
+
+.track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.playlist {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.playlist__list {
+  display: grid;
+  gap: 28px;
+}
+.playlist__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.playlist__name {
+  font-size: 24px;
+  color: #ddd;
+}
+.playlist__amount {
+  font-size: 16px;
+  color: #8d8d8d;
+}
 
 .choose {
   display: grid;

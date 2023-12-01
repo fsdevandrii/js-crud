@@ -1,0 +1,11 @@
+<ul class="playlist__list">
+    {{#each list}}
+    <a href="/spotify-track-add?playlistId={{id}}" class="playlist__item">
+        <li class="playlist__content">
+            <img src="{{image}}" alt="" class="playlist__image">
+            <strong class="title">{{name}}</strong>
+            <p class="text">{{amount}} пісень</p>
+        </li>
+    </a>
+    {{/each}}
+</ul>
